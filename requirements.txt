@@ -1,0 +1,3 @@
+apriori-python         == 1.0.4
+efficient-apriori      == 2.0.5
+fpgrowth-py            == 1.0.0
