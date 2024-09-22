@@ -28,24 +28,63 @@ def data_generator(filepath):
 
 
 def main():
-    df = pd.read_csv("/home/berkunov/Documents/GitHub/ISaT_MIREA/practice1/BreadBasket_DMS.csv")
-    df = df.groupby('Transaction')['Item'].apply(list).tolist()
+    # df = pd.read_csv("/home/berkunov/Documents/GitHub/ISaT_MIREA/practice1/online_retail.csv")
+    # df = df.groupby('InvoiceNo')['Description'].apply(list).tolist()
+
+    # df = pd.read_csv("/home/berkunov/Documents/GitHub/ISaT_MIREA/practice1/BreadBasket_DMS.csv")
+    # df = df.groupby('Transaction')['Item'].apply(list).tolist()
 
     # apriori_python
-    # freq_item_set, rules = apriori(df, minSup=0.01, minConf=0.01)
+    # freq_item_set, rules = apriori(df, minSup=0.01, minConf=0.8)
     # print(rules)
 
     # efficient_apriori
-    # freq_item_set,  rules = eff_apriori(df, min_support=0.01, min_confidence=0.01)
+    # freq_item_set,  rules = eff_apriori(df, min_support=0.01, min_confidence=0.8)
     # rules_rhs = filter(lambda rule: len(rule.lhs) == 1 and len(rule.rhs) == 1, rules)
     # for rule in sorted(rules_rhs, key = lambda rule: rule.confidence):
     #     print(rule)
     # print(rules)
 
-    # fpgrowth
-    freq_item_set, rules = fpgrowth(df, minSupRatio=0.05, minConf=0.05)
-    print(rules)
+    df = [
+        ["Футболка", "Джинсы", "Платье", "Куртка"],
+        ["Джинсы", "Шорты", "Юбка", "Кроссовки"],
+        ["Футболка", "Джинсы", "Платье", "Куртка", "Шорты"],
+        ["Свитер", "Кроссовки"],
+        ["Футболка", "Джинсы", "Платье", "Куртка", "Шорты", "Юбка"],
+        ["Юбка", "Свитер"],
+        ["Футболка", "Джинсы", "Платье", "Куртка", "Шорты", "Кроссовки"],
+        ["Юбка", "Свитер", "Кроссовки"],
+        ["Футболка", "Джинсы", "Куртка"],
+        ["Джинсы", "Куртка", "Шорты", "Свитер", "Кроссовки"],
+        ["Платье", "Куртка", "Шорты"],
+        ["Футболка", "Платье", "Куртка", "Юбка", "Свитер"],
+        ["Юбка", "Свитер"],
+        ["Футболка", "Джинсы", "Куртка", "Шорты", "Кроссовки"],
+        ["Джинсы", "Платье", "Куртка", "Шорты"],
+        ["Футболка", "Юбка", "Свитер"],
+        ["Джинсы", "Куртка", "Шорты"],
+        ["Платье", "Юбка"],
+        ["Футболка", "Джинсы", "Платье", "Куртка", "Шорты", "Кроссовки"],
+        ["Платье", "Юбка"],
+        ["Футболка", "Джинсы", "Платье", "Куртка", "Свитер"],
+        ["Футболка", "Джинсы", "Куртка", "Шорты", "Кроссовки"],
+        ["Футболка", "Джинсы", "Платье", "Куртка", "Шорты", "Юбка"],
+        ["Джинсы", "Платье", "Куртка", "Шорты", "Свитер", "Кроссовки"],
+        ["Футболка", "Джинсы", "Платье"],
+        ["Джинсы", "Куртка", "Шорты", "Юбка", "Свитер"],
+        ["Футболка", "Куртка", "Шорты"],
+        ["Футболка", "Джинсы", "Кроссовки"],
+        ["Футболка", "Джинсы", "Платье", "Свитер"],
+        ["Футболка", "Джинсы"]
+    ]
+    # print(df)
 
+    # fpgrowth
+    freq_item_set, rules = fpgrowth(df, minSupRatio=0.01, minConf=0.8)
+
+    for s in rules:
+        print(*s)
+    # print(rules)
 
 
 if __name__ == '__main__':
