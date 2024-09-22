@@ -2,3 +2,5 @@ apriori-python         == 1.0.4
 efficient-apriori      == 2.0.5
 fpgrowth-py            == 1.0.0
 pyarmviz               == 0.1.4
+pandas                 == 2.2.2
+ucimlrepo              == 0.0.7
