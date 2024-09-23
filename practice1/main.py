@@ -16,34 +16,45 @@ from apriori_python import apriori
 import pandas as pd
 from efficient_apriori import apriori as eff_apriori
 from fpgrowth_py import fpgrowth
-
-
-def data_generator(filepath):
-    def data_gen():
-        with open(filepath) as file:
-            for line in file:
-                yield tuple(k.strip() for k in line.split(','))
-
-    return data_gen
+import time
 
 
 def main():
-    # df = pd.read_csv("/home/berkunov/Documents/GitHub/ISaT_MIREA/practice1/online_retail.csv")
-    # df = df.groupby('InvoiceNo')['Description'].apply(list).tolist()
+    df = pd.read_csv("/home/berkunov/Documents/GitHub/ISaT_MIREA/practice1/online_retail.csv")
+    df = df.groupby('InvoiceNo')['Description'].apply(list).tolist()
 
     # df = pd.read_csv("/home/berkunov/Documents/GitHub/ISaT_MIREA/practice1/BreadBasket_DMS.csv")
     # df = df.groupby('Transaction')['Item'].apply(list).tolist()
 
     # apriori_python
-    # freq_item_set, rules = apriori(df, minSup=0.01, minConf=0.8)
-    # print(rules)
+    start_time = time.time()
+    freq_item_set, rules = apriori(df, minSup=0.01, minConf=0.8)
+    end_time = time.time()
+    apriori_python_time = end_time - start_time
+
+    print(rules)
 
     # efficient_apriori
-    # freq_item_set,  rules = eff_apriori(df, min_support=0.01, min_confidence=0.8)
-    # rules_rhs = filter(lambda rule: len(rule.lhs) == 1 and len(rule.rhs) == 1, rules)
-    # for rule in sorted(rules_rhs, key = lambda rule: rule.confidence):
-    #     print(rule)
-    # print(rules)
+    start_time = time.time()
+    freq_item_set,  rules = eff_apriori(df, min_support=0.01, min_confidence=0.8)
+    end_time = time.time()
+    efficient_apriori_time = end_time - start_time
+
+    rules_rhs = filter(lambda rule: len(rule.lhs) == 1 and len(rule.rhs) == 1, rules)
+    for rule in sorted(rules_rhs, key = lambda rule: rule.confidence):
+        print(rule)
+
+    # print(df)
+
+    # fpgrowth
+    start_time = time.time()
+    freq_item_set, rules = fpgrowth(df, minSupRatio=0.4, minConf=0.8)
+    end_time = time.time()
+    fpgrowth_py_time = end_time - start_time
+
+
+    for s in rules:
+        print(*s)
 
     df = [
         ["Футболка", "Джинсы", "Платье", "Куртка"],
@@ -77,14 +88,16 @@ def main():
         ["Футболка", "Джинсы", "Платье", "Свитер"],
         ["Футболка", "Джинсы"]
     ]
-    # print(df)
-
     # fpgrowth
-    freq_item_set, rules = fpgrowth(df, minSupRatio=0.01, minConf=0.8)
+    freq_item_set, rules = fpgrowth(df, minSupRatio=0.4, minConf=0.8)
 
     for s in rules:
         print(*s)
-    # print(rules)
+
+    print("----------------------------------------------------")
+    print(f"apriori_python: {apriori_python_time} seconds")
+    print(f"efficient_apriori: {efficient_apriori_time} seconds")
+    print(f"apriori_python_time: {fpgrowth_py_time} seconds")
 
 
 if __name__ == '__main__':
