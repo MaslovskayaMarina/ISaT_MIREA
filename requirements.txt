@@ -9,3 +9,4 @@ matplotlib
 seaborn
 trimap                 == 1.1.4
 pacmap                 == 0.7.3
+umap-learn             == 0.5.6
